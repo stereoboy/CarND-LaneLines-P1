@@ -15,7 +15,9 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/grayscale.jpg "Grayscale"
+[image1]: ./test_images/result_solidWhiteCurve.jpg "Result"
+[image2]: ./test_images/result_solidYellowCurve.jpg "Result"
+[image3]: ./test_images/result_whiteCarLaneSwitch.jpg "Result"
 
 ---
 
@@ -23,25 +25,30 @@ The goals / steps of this project are the following:
 
 ###1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
+My pipeline consisted of 6 steps.
 
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
+1. grayscale conversion
+2. gaussian blurring
+3. edge detection
+4. roi masking for left, right individually
+5. hough line detection separately on left, right roi
+6. merge left, right
+
+In order to handle left, right roi separately, I made new functions: draw_lines_v2() and hough_lines_v2().
+
+In draw_lines_v2(), lines are filtered with respect to slope value. The filter-related parameter is hard-coded. -0.8, -0.5 for left roi, 0.5, 0.8 for right roi.
 
 If you'd like to include images to show how the pipeline works, here is how to include an image: 
 
-![alt text][image1]
+![./test_images/result_solidWhiteCurve.jpg][image1]
+![./test_images/result_solidYellowCurve.jpg][image2]
+![./test_images/result_whiteCarLaneSwitch.jpg][image3]
 
 
 ###2. Identify potential shortcomings with your current pipeline
 
-
-One potential shortcoming would be what would happen when ... 
-
-Another shortcoming could be ...
-
+Hard-coded values can occurs errors or malfunctions if any exceptional slope of lines included in lanes enters.
 
 ###3. Suggest possible improvements to your pipeline
 
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
+By analysing stastical information based slopes, line-length and line-position, noise lines can be filtered.
